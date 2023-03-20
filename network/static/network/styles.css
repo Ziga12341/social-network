@@ -7,3 +7,19 @@ body{
     margin: 16px;
     padding: 16px;
 }
+
+.card{
+    background-color: blue;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    box-shadow: 0 0 4px 0 #000000;
+    color: #000000;
+    display: inline-block;
+    margin: 16px;
+    padding: 16px;
+    width: max-content;
+}
+
+.orange_bg{
+    background-color: orange;
+}

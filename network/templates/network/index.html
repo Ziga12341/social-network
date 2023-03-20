@@ -1,5 +1,35 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    <h1>All Posts</h1>
+
+    <!-- Show all the posts -->
+    <div class="card-container">
+        {% if user.is_authenticated %}
+        <!-- Form to create new post -->
+        <div class="card">
+            <div class="card-body">
+                <form action="/new_post" method="post">
+                    {% csrf_token %}
+                    {{ new_post_form }}
+                    <input class="btn btn-primary" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-container">
+    {% endif %}
+        {% for post in posts %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="orange_bg">
+                        <p> {{ post.body }}</p>
+
+                    </div>
+                    <p> {{ post.timestamp }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
