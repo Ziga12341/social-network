@@ -17,6 +17,14 @@ from django.contrib.auth.decorators import login_required
 from .models import User
 
 
+class FollowForm(forms.Form):
+    follow = forms.BooleanField(label="follow", required=False, initial=True, widget=forms.HiddenInput)
+
+
+class UnfollowForm(forms.Form):
+    unfollow = forms.BooleanField(label="unfollow", required=False, initial=True, widget=forms.HiddenInput)
+
+
 class NewPostForm(forms.Form):
     body = forms.CharField(widget=forms.Textarea, label="")
 
@@ -52,15 +60,27 @@ def profile(request, username):
         following_status = False
         # if user that is logged on following user that is being viewed display status
         logged_on_user = User.objects.get(id=request.user.id)
+        print("logged on user is: ", logged_on_user)
         if logged_on_user in followers and logged_on_user != user:
+            print("following status is true, user who's logged in is following user that is being viewed")
+            print("followers: ", followers)
             following_status = True
 
-            return render(request, "network/profile.html",
-                          {"users_profile": user,
-                           "posts": all_posts,
-                           "number_of_followers": len(followers),
-                           "number_of_following": len(following),
-                           "following_status": following_status})
+        if request.method == "POST":
+            if "follow" in request.POST:
+                logged_on_user.following.add(user)
+                logged_on_user.save()
+
+            elif "unfollow" in request.POST:
+                logged_on_user.following.remove(user)
+                logged_on_user.save()
+
+        return render(request, "network/profile.html",
+                      {"users_profile": user,
+                       "posts": all_posts,
+                       "number_of_followers": len(followers),
+                       "number_of_following": len(following),
+                       "following_status": following_status})
 
     return render(request, "network/profile.html",
                   {"users_profile": user,
