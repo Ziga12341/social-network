@@ -5,7 +5,9 @@
     <h1>{{ user }}</h1>
     <p>Display number of followers and number of people following me:</p>
     <!-- if user is autenticated, display follow/unfollow button -->
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user != users_profile %}
+        <h1> User profile is: {{ users_profile }}</h1>
+        <h1> User is: {{ user }}</h1>
         <div class="follow">
             follow/unfollow {{ following_status }}
         </div>
@@ -13,8 +15,10 @@
             <form action="{% url 'profile' users_profile %}" method="post">
                 {% csrf_token %}
                 {% if following_status %}
+                    {{ unfollow_form.unfollow.as_hidden }}
                     <input type="submit" value="Unfollow">
                 {% else %}
+                    {{ follow_form.follow.as_hidden }}
                     <input type="submit" value="Follow">
                 {% endif %}
             </form>

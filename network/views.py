@@ -80,7 +80,9 @@ def profile(request, username):
                        "posts": all_posts,
                        "number_of_followers": len(followers),
                        "number_of_following": len(following),
-                       "following_status": following_status})
+                       "following_status": following_status,
+                       "follow_form": FollowForm(),
+                       "unfollow_form": UnfollowForm()})
 
     return render(request, "network/profile.html",
                   {"users_profile": user,
