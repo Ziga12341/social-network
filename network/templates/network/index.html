@@ -27,7 +27,7 @@
 
                     </div>
                     <div class="card-footer">
-                        <p> {{ post.user }}</p>
+                        <a href="{°% url 'profile' posts.user %}"> {{ post.user }}</a>
                         <p> {{ post.timestamp }}</p>
                         <p> {{ post.likes }} likes </p>
                     </div>

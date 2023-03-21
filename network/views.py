@@ -40,6 +40,20 @@ def new_post(request):
     return HttpResponseRedirect(reverse("index"))
 
 
+@login_required(login_url='/login')
+def profile(request, username):
+    user = User.objects.get(username=username)
+    followers = user.followers.all()
+    following = user.following.all()
+    # all posts of user in reverse order
+    all_posts = Post.objects.filter(user=user).order_by("-timestamp")
+    return render(request, "network/profile.html",
+                  {"user": user,
+                   "posts": all_posts,
+                   "number_of_followers": len(followers),
+                   "number_of_following": len(following)})
+
+
 def login_view(request):
     if request.method == "POST":
 

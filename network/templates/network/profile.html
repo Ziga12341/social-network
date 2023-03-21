@@ -1,0 +1,19 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <h1>Network</h1>
+    <p>Display number of followers and number of people following me:</p>
+    <div class="followers">
+        <p>Followers: {{ number_of_followers }}</p>
+        <p>Following: {{ number_of_following }}</p>
+    </div>
+    <div class="posts">
+        {% for post in posts %}
+            <div class="post">
+                <p>{{ post.body }}</p>
+                <p>{{ post.timestamp }}</p>
+                <p>{{ post.user }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
