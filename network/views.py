@@ -24,8 +24,7 @@ class NewPostForm(forms.Form):
 def index(request):
     return render(request, "network/index.html",
                   {"new_post_form": NewPostForm(),
-                   "posts": Post.objects.all().order_by("-timestamp"),
-                  })
+                   "posts": Post.objects.all().order_by("-timestamp")})
 
 
 @login_required(login_url='/login')

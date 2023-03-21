@@ -13,6 +13,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     body = models.CharField(max_length=1000)
     timestamp = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user} posted {self.body} at {self.timestamp}"
