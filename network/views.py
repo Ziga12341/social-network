@@ -40,24 +40,33 @@ def new_post(request):
     return HttpResponseRedirect(reverse("index"))
 
 
-@login_required(login_url='/login')
 def profile(request, username):
-    following_status = False
-    logged_on_user = User.objects.get(id=request.user.id)
     user = User.objects.get(username=username)
     followers = user.followers.all()
     following = user.following.all()
     # all posts of user in reverse order
     all_posts = Post.objects.filter(user=user).order_by("-timestamp")
-    # if user that is logged on following user that is being viewed display status
-    if logged_on_user in followers and logged_on_user != user:
-        following_status = True
+
+    # check if user is logged in
+    if request.user.is_authenticated:
+        following_status = False
+        # if user that is logged on following user that is being viewed display status
+        logged_on_user = User.objects.get(id=request.user.id)
+        if logged_on_user in followers and logged_on_user != user:
+            following_status = True
+
+            return render(request, "network/profile.html",
+                          {"users_profile": user,
+                           "posts": all_posts,
+                           "number_of_followers": len(followers),
+                           "number_of_following": len(following),
+                           "following_status": following_status})
+
     return render(request, "network/profile.html",
                   {"users_profile": user,
                    "posts": all_posts,
                    "number_of_followers": len(followers),
-                   "number_of_following": len(following),
-                   "following_status": following_status})
+                   "number_of_following": len(following)})
 
 
 def login_view(request):

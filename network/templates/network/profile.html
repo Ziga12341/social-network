@@ -2,10 +2,24 @@
 
 {% block body %}
     <h1>Network</h1>
+    <h1>{{ user }}</h1>
     <p>Display number of followers and number of people following me:</p>
-    <div class="follow">
-        follow/unfollow {{ following_status }}
-    </div>
+    <!-- if user is autenticated, display follow/unfollow button -->
+    {% if user.is_authenticated %}
+        <div class="follow">
+            follow/unfollow {{ following_status }}
+        </div>
+        <div class="follow-section">
+            <form action="{% url 'profile' users_profile %}" method="post">
+                {% csrf_token %}
+                {% if following_status %}
+                    <input type="submit" value="Unfollow">
+                {% else %}
+                    <input type="submit" value="Follow">
+                {% endif %}
+            </form>
+        </div>
+    {% endif %}
     <div class="followers">
         <p>Followers: {{ number_of_followers }}</p>
         <p>Following: {{ number_of_following }}</p>

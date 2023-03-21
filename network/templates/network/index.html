@@ -26,8 +26,9 @@
                         <p> {{ post.body }}</p>
 
                     </div>
+                    {
                     <div class="card-footer">
-                        <a href="{°% url 'profile' posts.user %}"> {{ post.user }}</a>
+                        <a href="{% url 'profile' post.user %}"> {{ post.user }}</a>
                         <p> {{ post.timestamp }}</p>
                         <p> {{ post.likes }} likes </p>
                     </div>
