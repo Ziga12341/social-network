@@ -70,10 +70,16 @@ def profile(request, username):
             if "follow" in request.POST:
                 logged_on_user.following.add(user)
                 logged_on_user.save()
+                user.followers.add(logged_on_user)
+                user.save()
+                following_status = True
 
             elif "unfollow" in request.POST:
                 logged_on_user.following.remove(user)
                 logged_on_user.save()
+                user.followers.remove(logged_on_user)
+                user.save()
+                following_status = False
 
         return render(request, "network/profile.html",
                       {"users_profile": user,

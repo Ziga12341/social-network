@@ -4,7 +4,6 @@
     <h1>Network</h1>
     <h1>{{ user }}</h1>
     <p>Display number of followers and number of people following me:</p>
-    <!-- if user is autenticated, display follow/unfollow button -->
     {% if user.is_authenticated and user != users_profile %}
         <h1> User profile is: {{ users_profile }}</h1>
         <h1> User is: {{ user }}</h1>
