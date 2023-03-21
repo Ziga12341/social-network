@@ -3,6 +3,9 @@
 {% block body %}
     <h1>Network</h1>
     <p>Display number of followers and number of people following me:</p>
+    <div class="follow">
+        follow/unfollow {{ following_status }}
+    </div>
     <div class="followers">
         <p>Followers: {{ number_of_followers }}</p>
         <p>Following: {{ number_of_following }}</p>

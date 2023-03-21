@@ -42,16 +42,22 @@ def new_post(request):
 
 @login_required(login_url='/login')
 def profile(request, username):
+    following_status = False
+    logged_on_user = User.objects.get(id=request.user.id)
     user = User.objects.get(username=username)
     followers = user.followers.all()
     following = user.following.all()
     # all posts of user in reverse order
     all_posts = Post.objects.filter(user=user).order_by("-timestamp")
+    # if user that is logged on following user that is being viewed display status
+    if logged_on_user in followers and logged_on_user != user:
+        following_status = True
     return render(request, "network/profile.html",
-                  {"user": user,
+                  {"users_profile": user,
                    "posts": all_posts,
                    "number_of_followers": len(followers),
-                   "number_of_following": len(following)})
+                   "number_of_following": len(following),
+                   "following_status": following_status})
 
 
 def login_view(request):
