@@ -1,6 +1,5 @@
 body{
     background-color: yellowgreen;
-    color: #ffffff;
     font-family: "Arial", sans-serif;
     font-size: 18px;
     line-height: 1.5;
@@ -13,13 +12,19 @@ body{
     border: 1px solid #000000;
     border-radius: 4px;
     box-shadow: 0 0 4px 0 #000000;
-    color: #000000;
     display: inline-block;
     margin: 16px;
     padding: 16px;
-    width: max-content;
+    width: 600px;
 }
 
 .orange_bg{
     background-color: orange;
+}
+
+.card-footer{
+    color: #ffffff;
+    font-size: 12px;
+    margin-top: 16px;
+    padding: 8px;
 }

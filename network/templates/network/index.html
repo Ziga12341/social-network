@@ -26,7 +26,10 @@
                         <p> {{ post.body }}</p>
 
                     </div>
-                    <p> {{ post.timestamp }}</p>
+                    <div class="card-footer">
+                        <p> {{ post.user }}</p>
+                        <p> {{ post.timestamp }}</p>
+                    </div>
                 </div>
             </div>
         {% endfor %}
