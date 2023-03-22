@@ -1,4 +1,24 @@
 {% extends "network/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'network/profile.js' %}">
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('#follow-form').forEach(button => {
+            addEventListener('click', () => {
+                // add event log to print the event to console
+                console.log('Unfollow button was clicked');
+            })
+        })
+        // get the user id from the url and save it to a variable
+        document.querySelector('#follow-button').addEventListener('click', () => {
+            // add event log to print the event to console
+            console.log('Follow button was clicked');
+        })
+})
+    </script>
+{% endblock %}
 
 {% block body %}
     <h1>Network</h1>
@@ -11,20 +31,20 @@
             follow/unfollow {{ following_status }}
         </div>
         <div class="follow-section">
-            <form action="{% url 'profile' users_profile %}" method="post">
+            <form id="follow-form" action="{% url 'profile' users_profile %}" method="post">
                 {% csrf_token %}
                 {% if following_status %}
                     {{ unfollow_form.unfollow.as_hidden }}
-                    <input type="submit" value="Unfollow">
+                    <input id="unfollow-button" type="submit" value="Unfollow">
                 {% else %}
                     {{ follow_form.follow.as_hidden }}
-                    <input type="submit" value="Follow">
+                    <input id="follow-button" type="submit" value="Follow">
                 {% endif %}
             </form>
         </div>
     {% endif %}
     <div class="followers">
-        <p>Followers: {{ number_of_followers }}</p>
+        <p>Followers:<h3>{{ number_of_followers }}</h3></p>
         <p>Following: {{ number_of_following }}</p>
     </div>
     <div class="posts">
@@ -36,4 +56,9 @@
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+
+<!-- JavaScript file below -->
+{% block script %}
+    <script src="{% static 'network/profile.js' %}"></script>
 {% endblock %}
