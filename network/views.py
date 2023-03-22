@@ -5,7 +5,6 @@ The screenshot at the top of this specification shows the “New Post” box at 
 Posts should be displayed, most recent first.
 """
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -13,8 +12,6 @@ from django.urls import reverse
 from django import forms
 from .models import User, Post
 from django.contrib.auth.decorators import login_required
-
-from .models import User
 
 
 class FollowForm(forms.Form):
@@ -73,6 +70,7 @@ def profile(request, username):
                 user.followers.add(logged_on_user)
                 user.save()
                 following_status = True
+                return HttpResponseRedirect(reverse("profile", args=(username, )))
 
             elif "unfollow" in request.POST:
                 logged_on_user.following.remove(user)
@@ -80,6 +78,7 @@ def profile(request, username):
                 user.followers.remove(logged_on_user)
                 user.save()
                 following_status = False
+                return HttpResponseRedirect(reverse("profile", args=(username, )))
 
         return render(request, "network/profile.html",
                       {"users_profile": user,
@@ -89,12 +88,12 @@ def profile(request, username):
                        "following_status": following_status,
                        "follow_form": FollowForm(),
                        "unfollow_form": UnfollowForm()})
-
-    return render(request, "network/profile.html",
-                  {"users_profile": user,
-                   "posts": all_posts,
-                   "number_of_followers": len(followers),
-                   "number_of_following": len(following)})
+    else:
+        return render(request, "network/profile.html",
+                      {"users_profile": user,
+                       "posts": all_posts,
+                       "number_of_followers": len(followers),
+                       "number_of_following": len(following)})
 
 
 def login_view(request):
