@@ -111,6 +111,7 @@ def profile(request, username):
                        "number_of_followers": len(followers),
                        "number_of_following": len(following)})
 
+
 @login_required(login_url='/login')
 def following(request):
     next_page_url = None
@@ -132,9 +133,7 @@ def following(request):
     if following_posts.has_previous():
         previous_page_url = f'?page={following_posts.previous_page_number()}'
 
-    paginator = Paginator(following_posts, 10) # Show 10 items per page
-    page = request.GET.get('page')
-    following_posts = paginator.get_page(page)
+    print("paginator.num_pages: ", paginator.num_pages)
 
     return render(request, "network/following.html",
                   {"following_posts": following_posts,
