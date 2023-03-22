@@ -12,7 +12,7 @@ from django.urls import reverse
 from django import forms
 from .models import User, Post
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator
 
 class FollowForm(forms.Form):
     follow = forms.BooleanField(label="follow", required=False, initial=True, widget=forms.HiddenInput)
@@ -27,9 +27,13 @@ class NewPostForm(forms.Form):
 
 
 def index(request):
+    all_posts = Post.objects.all().order_by("-timestamp")
+    paginator = Paginator(all_posts, 10) # Show 10 items per page
+    page = request.GET.get('page')
+    all_posts = paginator.get_page(page)
     return render(request, "network/index.html",
                   {"new_post_form": NewPostForm(),
-                   "posts": Post.objects.all().order_by("-timestamp")})
+                   "posts":all_posts})
 
 
 @login_required(login_url='/login')
@@ -100,10 +104,18 @@ def following(request):
     # get all users posts that I am following
     logged_in_user = User.objects.get(id=request.user.id)
     following = logged_in_user.following.all()
+
     # get all posts from users that the user who is logged in is following
     following_posts = Post.objects.filter(user__in=following).order_by("-timestamp")
+
+    paginator = Paginator(following_posts, 10) # Show 10 items per page
+    page = request.GET.get('page')
+    following_posts = paginator.get_page(page)
+
+
     return render(request, "network/following.html",
                   {"following_posts": following_posts})
+
 
 def login_view(request):
     if request.method == "POST":
