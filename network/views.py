@@ -95,6 +95,15 @@ def profile(request, username):
                        "number_of_followers": len(followers),
                        "number_of_following": len(following)})
 
+@login_required(login_url='/login')
+def following(request):
+    # get all users posts that I am following
+    logged_in_user = User.objects.get(id=request.user.id)
+    following = logged_in_user.following.all()
+    # get all posts from users that the user who is logged in is following
+    following_posts = Post.objects.filter(user__in=following).order_by("-timestamp")
+    return render(request, "network/following.html",
+                  {"following_posts": following_posts})
 
 def login_view(request):
     if request.method == "POST":
