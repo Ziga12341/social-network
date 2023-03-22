@@ -1,32 +1,13 @@
 {% extends "network/layout.html" %}
 {% load static %}
 
-{% block head %}
-    <link rel="stylesheet" href="{% static 'network/profile.js' %}">
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('#follow-form').forEach(button => {
-            addEventListener('click', () => {
-                // add event log to print the event to console
-                console.log('Unfollow button was clicked');
-            })
-        })
-        // get the user id from the url and save it to a variable
-        document.querySelector('#follow-button').addEventListener('click', () => {
-            // add event log to print the event to console
-            console.log('Follow button was clicked');
-        })
-})
-    </script>
-{% endblock %}
-
 {% block body %}
     <h1>Network</h1>
     <h1>{{ user }}</h1>
     <p>Display number of followers and number of people following me:</p>
     {% if user.is_authenticated and user != users_profile %}
-        <h1> User profile is: {{ users_profile }}</h1>
-        <h1> User is: {{ user }}</h1>
+        <h1> User profile you that you are currently looking: {{ users_profile }}</h1>
+        <h1> User is that is logged in: {{ user }}</h1>
         <div class="follow">
             follow/unfollow {{ following_status }}
         </div>
