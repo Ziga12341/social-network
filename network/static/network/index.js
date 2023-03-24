@@ -1,11 +1,8 @@
-document.addEventListener('DOMContentLoaded', function() {
+// if edit button clicked then:
+// add console log
+// hide #post-body
 
-    const all_posts_button = document.querySelector('#all-posts')
-
-    // add event listener to the all posts button
-    // if all post button is clicked than console log the event
-
-    all_posts_button.addEventListener("click", () => {
-        console.log("All posts button was clicked")
-    })
-})
+const editButton = document.querySelector(#edit-button);
+editButton.addEventListener('click', function() {
+  // Your code to handle the "Edit" button click goes here
+});
