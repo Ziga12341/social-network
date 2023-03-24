@@ -27,16 +27,7 @@
                     </div>
                     <div class="card-footer">
                         <h6><a href="{% url 'profile' post.user %}"> {{ post.user }}</a></h6>
-                        <p> USER that is logged in je:{{ user }}</p>
-                        <p> Post of user:{{ post.user.username }}</p>
-                        <p>Al je res al ni: </p>
-                        {% if user == post.user %}
-                            <p>JE!</p>
-                        {% else %}
-                            <p>NI!</p>
-                        {% endif %}
                         {% if user.is_authenticated and user == post.user%}
-
                             <a href="#">Edit</a>
                         {% endif %}
                         <p> {{ post.timestamp }}</p>
