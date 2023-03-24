@@ -29,11 +29,10 @@
                     <div class="card-footer">
                         <h6><a href="{% url 'profile' post.user %}"> {{ post.user }}</a></h6>
                         {% if user.is_authenticated and user == post.user%}
-                            form action="{% url 'edit_post' post.id %}" method="post">
-                                {% csrf_token %}
-                                {{ edit_post_form }}
-                                <input class="btn btn-primary" type="submit">
+                            <form id="edit-form">
+                                <input id="edit-button" type="submit" class="btn btn-primary">
                             </form>
+                            <button id="edit-button-2">edit 2</button>
                         {% endif %}
                         <p> {{ post.timestamp }}</p>
                         <p> {{ post.likes }} likes </p>
@@ -56,4 +55,9 @@
             </ul>
         </nav>
     {% endif %}
+{% endblock %}
+
+<!-- import index.js -->
+{% block scripts %}
+    <script src="{% static 'network/index.js' %}"></script>
 {% endblock %}
