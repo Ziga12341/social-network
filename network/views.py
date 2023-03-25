@@ -51,7 +51,7 @@ def index(request):
                    "paginator": paginator,
                    "next_page_url": next_page_url,
                    "previous_page_url": previous_page_url,
-                   "edit_post_form": EditPostForm})
+                   "edit_post_form": EditPostForm()})
 
 
 @login_required(login_url='/login')

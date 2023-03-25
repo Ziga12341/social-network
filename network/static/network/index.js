@@ -10,11 +10,27 @@ document.addEventListener('DOMContentLoaded', function() {
         buttonClosePostClicked(button)
     });
     document.querySelectorAll('.card').forEach(card => {
-        card.querySelector(".card-body").addEventListener('submit', function (event) {
-            event.preventDefault(); // prevent the default form submission behavior
-            console.log(card)
+        card.querySelector(".card-body").addEventListener('click', function (event) {
+            const card = event.target.closest('.card')
+            console.log("Card", card, card.dataset, card.dataset.postId)
+            card.querySelector('.post-body').style.display = 'none';
+            card.querySelector(".edit-post-div").style.display = 'block';
+
             let postBody = card.querySelector('.card-body .post-body > p').textContent;
             console.log('postBody', postBody);
+
+            card.querySelector(".edit-form .edit-body").value = postBody;
+            console.log("edit body value", card.querySelector(".edit-form .edit-body").value)
+
+        })
+    })
+    document.querySelectorAll('.card').forEach(card => {
+        const newPostBody = card.querySelector('.edit-body').value;
+
+        card.querySelector(".card-body").addEventListener('submit', function (event) {
+            event.preventDefault(); // prevent the default form submission behavior
+            console.log('edit form submitted');
+            console.log('newPostBody', newPostBody);
             const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
             const formActionValue = card.querySelector(".edit-form").getAttribute('action');
@@ -23,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(formActionValue, {
                 method: 'POST',
                 body: JSON.stringify({
-                    'body':postBody
+                    'body': newPostBody
                 }),
                 headers: { "X-CSRFToken": csrfmiddlewaretoken }
             })
@@ -40,8 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
             card.querySelector('.edit-post-div').style.display = 'none';
             card.querySelector('.post-body').style.display = 'block';
             // add function that add event listener to edit-body-submit if user click this button change newPostBody to newPostBody
-            postBody = card.querySelector('.edit-form .edit-body').value;
-            console.log('postBody', postBody);
         });
     });
 });
