@@ -10,6 +10,9 @@ from django import forms
 from .models import User, Post
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
 
 
 class FollowForm(forms.Form):
@@ -22,6 +25,12 @@ class UnfollowForm(forms.Form):
 
 class NewPostForm(forms.Form):
     body = forms.CharField(widget=forms.Textarea, label="")
+
+
+class EditPostForm(forms.Form):
+    body = forms.CharField(
+        widget=forms.Textarea(attrs={"class": "edit-body"}),
+        label="")
 
 
 def index(request):
@@ -42,7 +51,8 @@ def index(request):
                    "posts": all_posts,
                    "paginator": paginator,
                    "next_page_url": next_page_url,
-                   "previous_page_url": previous_page_url})
+                   "previous_page_url": previous_page_url,
+                   "edit_post_form": EditPostForm})
 
 
 @login_required(login_url='/login')
@@ -55,6 +65,29 @@ def new_post(request):
             post = Post(body=body, user=user_by_id)
             post.save()
     # redirect to index
+    return HttpResponseRedirect(reverse("index"))
+
+
+@csrf_exempt
+@login_required(login_url='/login')
+def update_post(request, post_id):
+    print(request.method    )
+
+    # Editing posts must be via POST
+    if request.method != "POST":
+        return JsonResponse({
+                                "error": "POST request required."
+                            }, status=400)
+
+    # Get contents of from json
+    data = json.loads(request.body)
+    body = data.get("body", "")
+    print(data)
+    print(body)
+    if request.method == "POST":
+        post = Post.objects.get(id=post_id)
+        post.body = body
+        post.save()
     return HttpResponseRedirect(reverse("index"))
 
 

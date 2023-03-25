@@ -21,18 +21,36 @@
     <div class="card-container">
     {% endif %}
         {% for post in posts %}
-            <div class="card">
+            <div class="card" id="{{ post.id }}" data-post-id="{{ post.id }}">
                 <div class="card-body">
-                    <div id="post-body" class="orange_bg">
+                    <div class="post-body orange_bg">
                         <p> {{ post.body }}</p>
                     </div>
+                    {% if user.is_authenticated and user == post.user%}
+                        <!-- Edit post form -->
+                        <div class="edit-post-div" style="display: none">
+                            <form action="{% url 'update_post' post.id %}" method="post" class="edit-form">
+                                {% csrf_token %}
+                                {{ edit_post_form }}
+                                <input class="btn btn-primary edit-body-submit" type="submit">
+                            </form>
+<!--
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+                                <textarea class="edit-body" name="edit-body" >{{ post.body }}</textarea>
+
+
+                        <div class="edit-post-div" style="display: none">
+                            <textarea>{{ post.body }}</textarea>
+                            <button class="close-textarea">Close editing post</button>
+                            <button class="save-button">Save</button>
+                        </div>
+-->
+                        </div>
+                    {% endif %}
                     <div class="card-footer">
                         <h6><a href="{% url 'profile' post.user %}"> {{ post.user }}</a></h6>
                         {% if user.is_authenticated and user == post.user%}
-                            <form id="edit-form">
-                                <input id="edit-button" type="submit" class="btn btn-primary">
-                            </form>
-                            <button id="edit-button-2">edit 2</button>
+                            <button class="edit-button">Edit post</button>
                         {% endif %}
                         <p> {{ post.timestamp }}</p>
                         <p> {{ post.likes }} likes </p>
