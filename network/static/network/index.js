@@ -9,37 +9,39 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.close-textarea').forEach(button => {
         buttonClosePostClicked(button)
     });
-    document.querySelectorAll('.edit-form').forEach(form => {
-        form.addEventListener('submit', function (event) {
+    document.querySelectorAll('.card').forEach(card => {
+        card.querySelector(".card-body").addEventListener('submit', function (event) {
             event.preventDefault(); // prevent the default form submission behavior
-            console.log('edit form submitted');
-            let newPostBody = document.querySelector('.edit-body').value;
+            console.log(card)
+            let postBody = card.querySelector('.card-body .post-body > p').textContent;
+            console.log('postBody', postBody);
             const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
-            const formActionValue = form.getAttribute('action');
+            const formActionValue = card.querySelector(".edit-form").getAttribute('action');
             console.log('formActionValue', formActionValue);
             // make a Fetch API request to update the post
             fetch(formActionValue, {
                 method: 'POST',
                 body: JSON.stringify({
-                    'body': newPostBody
+                    'body':postBody
                 }),
                 headers: { "X-CSRFToken": csrfmiddlewaretoken }
             })
             .then(response => {
-                console.log(response); // add this line
+                console.log(response);
             })
             .then(result => {
-                console.log(result); // add this line
+                console.log(result);
                 // Print result
 
             });
-            // close edit-post-div and show post-body
-            const card = event.target.closest('.card')
+            // // close edit-post-div and show post-body
+            // const card = event.target.closest('.card')
             card.querySelector('.edit-post-div').style.display = 'none';
             card.querySelector('.post-body').style.display = 'block';
-            // update post-body
-            card.querySelector('.post-body').innerHTML = newPostBody;
+            // add function that add event listener to edit-body-submit if user click this button change newPostBody to newPostBody
+            postBody = card.querySelector('.edit-form .edit-body').value;
+            console.log('postBody', postBody);
         });
     });
 });
