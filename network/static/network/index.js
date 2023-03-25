@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         buttonClosePostClicked(button)
     });
     document.querySelectorAll('.card').forEach(card => {
-        card.querySelector(".card-body").addEventListener('click', function (event) {
+        card.querySelector(".edit-button").addEventListener('click', function (event) {
             const card = event.target.closest('.card')
             console.log("Card", card, card.dataset, card.dataset.postId)
             card.querySelector('.post-body').style.display = 'none';
@@ -32,8 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
             const formActionValue = card.querySelector(".edit-form").getAttribute('action');
-            const newPostBody = "Hard coded edited post body";
-            console.log('newPostBody', newPostBody);
+            const newPostBody = card.querySelector(".edit-form .edit-body").value;
 
 
             console.log('formActionValue', formActionValue);
@@ -50,12 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(result => {
                 console.log(result);
-                console.log('this is enf fo fetch');
-                // Print result
+                console.log('newPostBody', newPostBody);
+                console.log('----------------- it should said message from edited form -----------------',
+                card.querySelector(".edit-form .edit-body").value);
+                console.log('this is end of fetch');
 
             });
-            // // close edit-post-div and show post-body
-            // const card = event.target.closest('.card')
             card.querySelector('.card-body .post-body > p').textContent = newPostBody
 
             card.querySelector('.edit-post-div').style.display = 'none';
@@ -69,12 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function buttonEditPostClicked(button) {
     button.addEventListener('click', function (event) {
-        console.log('edit button clicked');
-        console.log("Event", event.target.id, event.target, event)
-
         const card = event.target.closest('.card')
-        console.log("Card", card, card.dataset, card.dataset.postId)
-
         card.querySelector('.post-body').style.display = 'none';
         card.querySelector(".edit-post-div").style.display = 'block';
     });
@@ -83,7 +77,6 @@ function buttonEditPostClicked(button) {
 // function that close edit-post-div and show post-body
 function buttonClosePostClicked(button) {
     button.addEventListener('click', function (event) {
-        console.log('close button clicked');
         const card = event.target.closest('.card')
         card.querySelector('.post-body').style.display = 'block';
         card.querySelector('.edit-post-div').style.display = 'none';
