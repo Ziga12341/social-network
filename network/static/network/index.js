@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({
                     'body': newPostBody,
                     "csrfmiddlewaretoken": csrfmiddlewaretoken,
-                })
+                }),
+                headers: { "X-CSRFToken": csrfmiddlewaretoken }
             })
             .then(response => response.json())
             .then(result => {
