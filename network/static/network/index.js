@@ -25,15 +25,17 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     })
     document.querySelectorAll('.card').forEach(card => {
-        const newPostBody = card.querySelector('.edit-body').value;
 
         card.querySelector(".card-body").addEventListener('submit', function (event) {
             event.preventDefault(); // prevent the default form submission behavior
             console.log('edit form submitted');
-            console.log('newPostBody', newPostBody);
             const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
             const formActionValue = card.querySelector(".edit-form").getAttribute('action');
+            const newPostBody = "Hard coded edited post body";
+            console.log('newPostBody', newPostBody);
+
+
             console.log('formActionValue', formActionValue);
             // make a Fetch API request to update the post
             fetch(formActionValue, {
@@ -48,11 +50,14 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(result => {
                 console.log(result);
+                console.log('this is enf fo fetch');
                 // Print result
 
             });
             // // close edit-post-div and show post-body
             // const card = event.target.closest('.card')
+            card.querySelector('.card-body .post-body > p').textContent = newPostBody
+
             card.querySelector('.edit-post-div').style.display = 'none';
             card.querySelector('.post-body').style.display = 'block';
             // add function that add event listener to edit-body-submit if user click this button change newPostBody to newPostBody
