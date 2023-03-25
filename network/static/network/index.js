@@ -48,17 +48,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(response);
             })
             .then(result => {
-                console.log(result);
-                console.log('newPostBody', newPostBody);
-                console.log('----------------- it should said message from edited form -----------------',
-                card.querySelector(".edit-form .edit-body").value);
-                console.log('this is end of fetch');
+                try {
+                    console.log('newPostBody', newPostBody);
+                    console.log(result);
+                    console.log('----------------- it should said message from edited form -----------------',
+                    card.querySelector(".edit-form .edit-body").value);
+                    console.log('this is end of fetch');
+                    card.querySelector('.card-body .post-body > p').textContent = newPostBody
 
-            });
-            card.querySelector('.card-body .post-body > p').textContent = newPostBody
-
-            card.querySelector('.edit-post-div').style.display = 'none';
-            card.querySelector('.post-body').style.display = 'block';
+                    card.querySelector('.edit-post-div').style.display = 'none';
+                    card.querySelector('.post-body').style.display = 'block';
+                    } catch (error) {
+                        console.error('Error parsing JSON data:', error.message);
+                    }
+                    })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                });
             // add function that add event listener to edit-body-submit if user click this button change newPostBody to newPostBody
         });
     });
