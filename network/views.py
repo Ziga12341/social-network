@@ -13,8 +13,11 @@ from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
+from django.views.decorators.csrf import csrf_protect
+from django.contrib import messages
+from django.shortcuts import redirect
 
-
+csrf_protect
 class FollowForm(forms.Form):
     follow = forms.BooleanField(label="follow", required=False, initial=True, widget=forms.HiddenInput)
 
@@ -68,10 +71,9 @@ def new_post(request):
     return HttpResponseRedirect(reverse("index"))
 
 
-@csrf_exempt
 @login_required(login_url='/login')
 def update_post(request, post_id):
-    print(request.method    )
+    print(request.method)
 
     # Editing posts must be via POST
     if request.method != "POST":
@@ -81,15 +83,17 @@ def update_post(request, post_id):
 
     # Get contents of from json
     data = json.loads(request.body)
+    csrf_token = data.get("csrfmiddlewaretoken", "")
     body = data.get("body", "")
+
     print(data)
     print(body)
-    if request.method == "POST":
-        post = Post.objects.get(id=post_id)
-        post.body = body
-        post.save()
-    return HttpResponseRedirect(reverse("index"))
+    post = Post.objects.get(id=post_id)
+    post.body = body
+    post.save()
 
+    messages.success(request, "Post updated successfully.")
+    return redirect("index")
 
 def profile(request, username):
     user = User.objects.get(username=username)
