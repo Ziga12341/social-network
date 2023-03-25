@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         form.addEventListener('submit', function (event) {
             event.preventDefault(); // prevent the default form submission behavior
             console.log('edit form submitted');
-            const newPostBody = document.querySelector('.edit-body').value;
+            let newPostBody = document.querySelector('.edit-body').value;
             const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
             const formActionValue = form.getAttribute('action');
@@ -22,29 +22,24 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(formActionValue, {
                 method: 'POST',
                 body: JSON.stringify({
-                    'body': newPostBody,
-                    "csrfmiddlewaretoken": csrfmiddlewaretoken,
+                    'body': newPostBody
                 }),
                 headers: { "X-CSRFToken": csrfmiddlewaretoken }
             })
-            .then(response => response.json())
-            .then(result => {
-                console.log('result', result);
-                // update the post body in the browser
-                postBody.innerText = newPostBody;
-
-                // hide the edit form
-                editForm.style.display = 'none';
+            .then(response => {
+                console.log(response); // add this line
             })
+            .then(result => {
+                console.log(result); // add this line
+                // Print result
 
-            // name csrfmiddlewaretoken
-
-            // const postBody = {
-            //     'csrfmiddlewaretoken': form.querySelector('input[name="csrfmiddlewaretoken"]').value,
-            //     'id': form.querySelector('input[name="post-id"]').value,
-            //     'body': form.querySelector('textarea[name="edit-body"]').value,
-            // }
-
+            });
+            // close edit-post-div and show post-body
+            const card = event.target.closest('.card')
+            card.querySelector('.edit-post-div').style.display = 'none';
+            card.querySelector('.post-body').style.display = 'block';
+            // update post-body
+            card.querySelector('.post-body').innerHTML = newPostBody;
         });
     });
 });

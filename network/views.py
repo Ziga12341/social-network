@@ -10,7 +10,6 @@ from django import forms
 from .models import User, Post
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
 
@@ -29,7 +28,7 @@ class NewPostForm(forms.Form):
 
 class EditPostForm(forms.Form):
     body = forms.CharField(
-        widget=forms.Textarea(attrs={"class": "edit-body"}),
+        widget=forms.Textarea(attrs={"class": "edit-body", "opacity": "0"}),
         label="")
 
 
@@ -78,7 +77,6 @@ def update_post(request, post_id):
 
     # Get contents of from json
     data = json.loads(request.body)
-    csrf_token = data.get("csrfmiddlewaretoken", "")
     body = data.get("body", "")
 
     print(data)

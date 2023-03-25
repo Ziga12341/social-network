@@ -32,6 +32,7 @@
                             <form action="{% url 'update_post' post.id %}" method="post" class="edit-form">
                                 {% csrf_token %}
                                 {{ edit_post_form }}
+                                <button class="close-textarea">Close editing post</button>
                                 <input class="btn btn-primary edit-body-submit" type="submit">
                             </form>
 <!--
