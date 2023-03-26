@@ -75,12 +75,15 @@ def update_post(request, post_id):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
 
+    user = User.objects.get(id=request.user.id)
+    post = Post.objects.get(id=post_id)
+    if user != post.user:
+        return JsonResponse({"error": "You can only edit your own posts."}, status=400)
+
     # Get contents of from json
     data = json.loads(request.body)
     body = data.get("body", "")
 
-    print(data)
-    print(body)
     post = Post.objects.get(id=post_id)
     post.body = body
     post.save()
