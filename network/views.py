@@ -90,6 +90,33 @@ def update_post(request, post_id):
     return HttpResponseRedirect(reverse("index"))
 
 
+# like a post
+# note who liked the post
+
+@login_required(login_url='/login')
+def like(request, post_id):
+    post = Post.objects.get(id=post_id)
+    post.likes += 1
+    post.save()
+    user = User.objects.get(id=request.user.id)
+    user.liked_posts.add(post)
+    return HttpResponseRedirect(reverse("index"))
+
+
+# unlike a post
+def unlike(request, post_id):
+    post = Post.objects.get(id=post_id)
+    post.likes -= 1
+    post.save()
+    user = User.objects.get(id=request.user.id)
+    try:
+        user.liked_posts.remove(post_id)
+    except(ValueError, post.DoesNotExist):
+        "User did not like this post jet"
+
+    return HttpResponseRedirect(reverse("index"))
+
+
 def profile(request, username):
     user = User.objects.get(username=username)
     followers = user.followers.all()

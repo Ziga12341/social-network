@@ -40,8 +40,42 @@ body{
     padding: 0px;
 }
 
-.favorites{
+.favorites-checked-button{
     background: url("favorite-checked.svg") no-repeat center;
     width: 40px;
     height: 40px;
+    display: inline-block;
+}
+
+.favorites-unchecked-button{
+    background: url("favorite-unchecked.svg") no-repeat center;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+}
+
+/*center number in .favorites icon*/
+.favorites-icons{
+    vertical-align: middle;
+    horiz-align: center;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.favorites-count {
+    vertical-align: center;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    background-color: #e5e5e5;
+    color: #333;
+    border-radius: 75%;
+    font-weight: bold;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    padding: 11px;
+    text-align: center;
+    horiz-align: center;
 }

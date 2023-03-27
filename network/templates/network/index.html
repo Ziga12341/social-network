@@ -38,12 +38,12 @@
                             <button class="close-textarea btn btn-primary">Close editing post</button>
 
                             <!-- favorites image button -->
-                            <div class="favorites">
-                                <form action="{% url 'favorite_post' post.id %}" method="post" class="favorite-form">
-                                    {% csrf_token %}
-                                    <button class="favorite-button" type="submit"></button>
-                                </form>
-<!--
+{#                            <div class="favorites">#}
+{#                                <form action="{% url 'favorite_post' post.id %}" method="post" class="favorite-form">#}
+{#                                    {% csrf_token %}#}
+{#                                    <button class="favorite-button" type="submit"></button>#}
+{#                                </form>#}
+{#<!--#}
                                 <input type="hidden" name="post_id" value="{{ post.id }}">
                                 <textarea class="edit-body" name="edit-body" >{{ post.body }}</textarea>
 
@@ -62,8 +62,16 @@
                             <button class="edit-button">Edit post</button>
                         {% endif %}
                         <p> {{ post.timestamp }}</p>
-                        <p> {{ post.likes }} likes </p>
-                        <div class="favorites"></div>
+                        <div class="favorites-icons">
+                            <p>If logged-in user liked post: {{ request.user.liked_posts.all }}</p>
+                            <p>who liked post : {{ post.liked_posts.all}}</p>
+                            {% if request.user.liked_posts.all.username %}
+                                <button class="favorites-checked-button fav-btn"></button>
+                            {% else %}
+                                <button class="favorites-unchecked-button fav-btn"></button>
+                            {% endif %}
+                            <div class="favorites-count">{{ post.likes }}</div>
+                        </div>
                     </div>
                 </div>
             </div>

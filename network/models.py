@@ -8,6 +8,7 @@ from django.db import models
 class User(AbstractUser):
     followers = models.ManyToManyField("User", blank=True, related_name="user_followers")
     following = models.ManyToManyField("User", blank=True, related_name="user_following")
+    liked_posts = models.ManyToManyField("Post", blank=True, related_name="liked_posts")
 
     def __str__(self):
         return f"{self.username}"
