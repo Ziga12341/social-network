@@ -9,6 +9,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.close-textarea').forEach(button => {
         buttonClosePostClicked(button)
     });
+    document.querySelectorAll('card').forEach(button => {
+        const likeDislikeButton = button.querySelector('.card-footer .fav-btn');
+        if (likeDislikeButton) {
+            likeDislikeButton.addEventListener('submit', function (event) {
+                if (likeDislikeButton.className === "favorites-unchecked-button")
+                    likeDislikeButton.className = "favorites-checked-button"
+                else
+                    likeDislikeButton.className = "favorites-unchecked-button"
+                })
+            }
+    });
+
     document.querySelectorAll('.card').forEach(card => {
         card.querySelector(".edit-button").addEventListener('click', function (event) {
             const card = event.target.closest('.card')
@@ -71,17 +83,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // add event listener to footer if liked/unliked button clicked
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('card').forEach(button => {
-        const likeDislikeButton = button.querySelector('.card-footer .favorite-icons .fav-btn');
-        likeDislikeButton.addEventListener('submit', function (event) {
-            if (likeDislikeButton.className === "favorites-unchecked-button")
-                likeDislikeButton.className = "favorites-checked-button"
-            else
-                likeDislikeButton.className = "favorites-unchecked-button"
-        })
-    })
-})
+// document.addEventListener('DOMContentLoaded', function() {
+//     document.querySelectorAll('card').forEach(button => {
+//         const likeDislikeButton = button.querySelector('.card-footer .favorite-icons .fav-btn');
+//         likeDislikeButton.addEventListener('submit', function (event) {
+//             if (likeDislikeButton.className === "favorites-unchecked-button")
+//                 likeDislikeButton.className = "favorites-checked-button"
+//             else
+//                 likeDislikeButton.className = "favorites-unchecked-button"
+//         })
+//     })
+// })
 
 // add function that add event listener to edit-button-2 in fuser is logged in  add log to console that edit-button-2 clicked
 
