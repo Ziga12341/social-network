@@ -15,11 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelectorAll('.card').forEach(card => {
         const likeDislikeButton = card.querySelector('.card-footer .fav-btn');
-        if (likeDislikeButton) {
-            likeDislikeButton.addEventListener('submit', function (event) {
+        const favoriteIcons = card.querySelector('.favorites-icons');
+        if (favoriteIcons) {
+            favoriteIcons.addEventListener('submit', function (event) {
                 event.preventDefault(); // prevent the default form submission behavior
-                console.log('likeDislikeButton clicked', likeDislikeButton)
-                console.log('likeDislikeButton.className', likeDislikeButton.className)
                 const buttonClassName = likeDislikeButton.className
                 if(buttonClassName.includes("favorites-checked-button")){ // if the button is checked -dislike post
                     likeDislikeButton.classList.remove("favorites-checked-button");
@@ -32,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         }),
                         headers: { "X-CSRFToken": csrfmiddlewaretoken }
                     })
-                .then(response => {
-                    console.log(response);
+                    .then(response => {
+                        console.log(response);
                 })
                 // fetch also for dislike
                 } else { // if the button is unchecked - like post
