@@ -22,19 +22,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelectorAll('.card').forEach(card => {
-        card.querySelector(".edit-button").addEventListener('click', function (event) {
-            const card = event.target.closest('.card')
-            console.log("Card", card, card.dataset, card.dataset.postId)
-            card.querySelector('.post-body').style.display = 'none';
-            card.querySelector(".edit-post-div").style.display = 'block';
+        const editButton = card.querySelector('.edit-button');
+        if (editButton) {
+            editButton.addEventListener('click', function (event) {
+                const card = event.target.closest('.card')
+                console.log("Card", card, card.dataset, card.dataset.postId)
+                card.querySelector('.post-body').style.display = 'none';
+                card.querySelector(".edit-post-div").style.display = 'block';
 
-            let postBody = card.querySelector('.card-body .post-body > p').textContent;
-            console.log('postBody', postBody);
+                let postBody = card.querySelector('.card-body .post-body > p').textContent;
+                console.log('postBody', postBody);
 
-            card.querySelector(".edit-form .edit-body").value = postBody;
-            console.log("edit body value", card.querySelector(".edit-form .edit-body").value)
-
-        })
+                card.querySelector(".edit-form .edit-body").value = postBody;
+                console.log("edit body value", card.querySelector(".edit-form .edit-body").value)
+            })
+        }
     })
     document.querySelectorAll('.card').forEach(card => {
 
