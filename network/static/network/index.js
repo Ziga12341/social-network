@@ -9,19 +9,23 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.close-textarea').forEach(button => {
         buttonClosePostClicked(button)
     });
+
     document.querySelectorAll('.card').forEach(card => {
-        console.log("in first card")
         const likeDislikeButton = card.querySelector('.card-footer .fav-btn');
         if (likeDislikeButton) {
             likeDislikeButton.addEventListener('click', function (event) {
                 console.log('likeDislikeButton clicked', likeDislikeButton)
                 console.log('likeDislikeButton.className', likeDislikeButton.className)
-                if (likeDislikeButton.className === "favorites-unchecked-button")
-                    likeDislikeButton.className = "favorites-checked-button"
-                else
-                    likeDislikeButton.className = "favorites-unchecked-button"
-                })
-            }
+                const buttonClassName = likeDislikeButton.className
+                if(buttonClassName.includes("favorites-checked-button")){ // if the button is checked
+                    likeDislikeButton.classList.remove("favorites-checked-button");
+                    likeDislikeButton.classList.add("favorites-unchecked-button");
+                } else { // if the button is unchecked
+                    likeDislikeButton.classList.remove("favorites-unchecked-button");
+                    likeDislikeButton.classList.add("favorites-checked-button");
+                }
+            })
+        }
     });
 
     document.querySelectorAll('.card').forEach(card => {
