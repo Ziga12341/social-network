@@ -47,48 +47,50 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })
     document.querySelectorAll('.card').forEach(card => {
+        const editPost = card.querySelector(".edit-post-div")
+        if (editPost) {
+            editPost.addEventListener('submit', function (event) {
+                event.preventDefault(); // prevent the default form submission behavior
+                console.log('edit form submitted');
+                const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
-        card.querySelector(".card-body").addEventListener('submit', function (event) {
-            event.preventDefault(); // prevent the default form submission behavior
-            console.log('edit form submitted');
-            const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-
-            const formActionValue = card.querySelector(".edit-form").getAttribute('action');
-            const newPostBody = card.querySelector(".edit-form .edit-body").value;
+                const formActionValue = card.querySelector(".edit-form").getAttribute('action');
+                const newPostBody = card.querySelector(".edit-form .edit-body").value;
 
 
-            console.log('formActionValue', formActionValue);
-            // make a Fetch API request to update the post
-            fetch(formActionValue, {
-                method: 'POST',
-                body: JSON.stringify({
-                    'body': newPostBody
-                }),
-                headers: { "X-CSRFToken": csrfmiddlewaretoken }
-            })
-            .then(response => {
-                console.log(response);
-            })
-            .then(result => {
-                try {
-                    console.log('newPostBody', newPostBody);
-                    console.log(result);
-                    console.log('----------------- it should said message from edited form -----------------',
-                    card.querySelector(".edit-form .edit-body").value);
-                    console.log('this is end of fetch');
-                    card.querySelector('.card-body .post-body > p').textContent = newPostBody
+                console.log('formActionValue', formActionValue);
+                // make a Fetch API request to update the post
+                fetch(formActionValue, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        'body': newPostBody
+                    }),
+                    headers: { "X-CSRFToken": csrfmiddlewaretoken }
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(result => {
+                    try {
+                        console.log('newPostBody', newPostBody);
+                        console.log(result);
+                        console.log('----------------- it should said message from edited form -----------------',
+                        card.querySelector(".edit-form .edit-body").value);
+                        console.log('this is end of fetch');
+                        card.querySelector('.card-body .post-body > p').textContent = newPostBody
 
-                    card.querySelector('.edit-post-div').style.display = 'none';
-                    card.querySelector('.post-body').style.display = 'block';
-                    } catch (error) {
-                        console.error('Error parsing JSON data:', error.message);
-                    }
-                    })
-                .catch(error => {
-                  console.error('Error fetching data:', error.message);
-                });
-            // add function that add event listener to edit-body-submit if user click this button change newPostBody to newPostBody
-        });
+                        card.querySelector('.edit-post-div').style.display = 'none';
+                        card.querySelector('.post-body').style.display = 'block';
+                        } catch (error) {
+                            console.error('Error parsing JSON data:', error.message);
+                        }
+                        })
+                    .catch(error => {
+                      console.error('Error fetching data:', error.message);
+                    });
+                // add function that add event listener to edit-body-submit if user click this button change newPostBody to newPostBody
+            });
+        }
     });
 });
 

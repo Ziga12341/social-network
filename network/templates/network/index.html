@@ -53,34 +53,21 @@
                         {#If user already liked the post, show the checked button, otherwise show unchecked button#}
                         <div class="favorites-icons">
                             {% if user.is_authenticated %}
-                                    <p>who liked post :
-                                    {#loop through all users who liked the post#}
-                                    {% for user_who_liked in post.liked_posts.all %}
-                                        {{ user_who_liked.username }}
-                                        <br>
-                                        {% if request.user == user_who_liked %}
-                                            <span>Logged-in user liked this page</span>
-                                            <br>
-                                            <form action="/post/{{ post.id }}/unlike" method="post>">
-                                                {% csrf_token %}
-                                                <button class="favorites-checked-button fav-btn"></button>
-                                            </form>
-                                        {% else %}
-                                            <form action="/post/{{ post.id }}like" method="post>">
-                                                {% csrf_token %}
-                                                <button class="favorites-unchecked-button fav-btn"></button>
-                                            </form>
-                                        {% endif %}
-                                    {% endfor %}
-        {#                            if post do not have any likes#}
-                                    {% if not post.liked_posts.all %}
-                                        <span>Logged-in user did not like this page</span>
-                                        <br>
-                                            <form action="/post/{{ post.id }}/like" method="post>">
-                                                {% csrf_token %}
-                                                <button class="favorites-unchecked-button fav-btn"></button>
-                                            </form>
-                                    {% endif %}
+                                <p>who liked post :
+                                <p> users who liked goes here {{ post.liked_posts.all }}</p>
+                                <br>
+                                {% if request.user in post.liked_posts.all %}
+                                    <form action="/post/{{ post.id }}/unlike" method="post>">
+                                        {% csrf_token %}
+                                        <button class="favorites-checked-button fav-btn" name="first-if"></button>
+                                    </form>
+{#                                      if user already liked the post, do not show the unchecked button#}
+                                {% else %}
+                                    <form action="/post/{{ post.id }}/like" method="post>">
+                                        {% csrf_token %}
+                                        <button class="favorites-unchecked-button fav-btn" name="first-else"></button>
+                                    </form>
+                                {% endif %}
                             {% endif %}
                             </p>
                             <div class="favorites-count">{{ post.likes }}</div>

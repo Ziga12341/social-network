@@ -92,14 +92,19 @@ def update_post(request, post_id):
 
 # like a post
 # note who liked the post
-
+# if user did not like post jet but other users does, add user to liked posts
+# check who already liked post and if logged-in user is in list
 @login_required(login_url='/login')
 def like(request, post_id):
     post = Post.objects.get(id=post_id)
-    post.likes += 1
-    post.save()
     user = User.objects.get(id=request.user.id)
-    user.liked_posts.add(post)
+    # check if user already liked post
+    if user in post.liked_posts.all():
+        print("user already liked posts")
+    else:
+        user.liked_posts.add(post)
+        post.likes += 1
+        post.save()
     return HttpResponseRedirect(reverse("index"))
 
 
