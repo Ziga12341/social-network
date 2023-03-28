@@ -117,14 +117,15 @@ def unlike(request, post_id):
     print(request.POST)
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
-    post = Post.objects.get(id=post_id)
-    post.likes -= 1
-    post.save()
+
     user = User.objects.get(id=request.user.id)
-    try:
-        user.liked_posts.remove(post_id)
-    except(ValueError, post.DoesNotExist):
-        "User did not like this post jet"
+    post = Post.objects.get(id=post_id)
+    if user in post.liked_posts.all():
+        user.liked_posts.remove(post)
+        post.likes -= 1
+        post.save()
+    else:
+        print("user did not like post jet")
 
     return HttpResponseRedirect(reverse("index"))
 
