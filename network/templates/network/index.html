@@ -37,29 +37,17 @@
                             </form>
                             <button class="close-textarea btn btn-primary">Close editing post</button>
 
-                            <!-- favorites image button -->
-{#                            <div class="favorites">#}
-{#                                <form action="{% url 'favorite_post' post.id %}" method="post" class="favorite-form">#}
-{#                                    {% csrf_token %}#}
-{#                                    <button class="favorite-button" type="submit"></button>#}
-{#                                </form>#}
-{#<!--#}
-                                <input type="hidden" name="post_id" value="{{ post.id }}">
-                                <textarea class="edit-body" name="edit-body" >{{ post.body }}</textarea>
-
-
                         <div class="edit-post-div" style="display: none">
                             <textarea>{{ post.body }}</textarea>
                             <button class="close-textarea">Close editing post</button>
                             <button class="save-button">Save</button>
                         </div>
--->
                         </div>
                     {% endif %}
                     <div class="card-footer">
                         <h6><a href="{% url 'profile' post.user %}"> {{ post.user }}</a></h6>
                         {% if user.is_authenticated and user == post.user%}
-                            <button class="edit-button">Edit post</button>
+                            <button class="edit-button btn btn-primary">Edit post</button>
                         {% endif %}
                         <p> {{ post.timestamp }}</p>
                         {#If user already liked the post, show the checked button, otherwise show unchecked button#}

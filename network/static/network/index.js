@@ -9,10 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.close-textarea').forEach(button => {
         buttonClosePostClicked(button)
     });
-    document.querySelectorAll('card').forEach(button => {
-        const likeDislikeButton = button.querySelector('.card-footer .fav-btn');
+    document.querySelectorAll('card').forEach(card => {
+        console.log("in first card")
+        const likeDislikeButton = card.querySelector('.card-footer .fav-btn');
         if (likeDislikeButton) {
-            likeDislikeButton.addEventListener('submit', function (event) {
+            likeDislikeButton.addEventListener('click', function (event) {
+                console.log('likeDislikeButton clicked', likeDislikeButton)
+                console.log('likeDislikeButton.className', likeDislikeButton.className)
                 if (likeDislikeButton.className === "favorites-unchecked-button")
                     likeDislikeButton.className = "favorites-checked-button"
                 else
