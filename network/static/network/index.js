@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.close-textarea').forEach(button => {
         buttonClosePostClicked(button)
     });
-    document.querySelectorAll('card').forEach(card => {
+    document.querySelectorAll('.card').forEach(card => {
         console.log("in first card")
         const likeDislikeButton = card.querySelector('.card-footer .fav-btn');
         if (likeDislikeButton) {
