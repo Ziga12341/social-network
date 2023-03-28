@@ -17,10 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('likeDislikeButton clicked', likeDislikeButton)
                 console.log('likeDislikeButton.className', likeDislikeButton.className)
                 const buttonClassName = likeDislikeButton.className
-                if(buttonClassName.includes("favorites-checked-button")){ // if the button is checked
+                if(buttonClassName.includes("favorites-checked-button")){ // if the button is checked -dislike post
                     likeDislikeButton.classList.remove("favorites-checked-button");
                     likeDislikeButton.classList.add("favorites-unchecked-button");
-                } else { // if the button is unchecked
+
+                } else { // if the button is unchecked - like post
                     likeDislikeButton.classList.remove("favorites-unchecked-button");
                     likeDislikeButton.classList.add("favorites-checked-button");
                 }
