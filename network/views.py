@@ -96,6 +96,10 @@ def update_post(request, post_id):
 # check who already liked post and if logged-in user is in list
 @login_required(login_url='/login')
 def like(request, post_id):
+    print(request.POST)
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
     post = Post.objects.get(id=post_id)
     user = User.objects.get(id=request.user.id)
     # check if user already liked post
@@ -110,6 +114,9 @@ def like(request, post_id):
 
 # unlike a post
 def unlike(request, post_id):
+    print(request.POST)
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
     post = Post.objects.get(id=post_id)
     post.likes -= 1
     post.save()

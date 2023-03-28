@@ -2,6 +2,9 @@
 // add console log
 // hide #post-body
 console.log('JavaScript code is actually being executed')
+// To store the logs in localStorage
+
+
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.edit-button').forEach(button => {
         buttonEditPostClicked(button)
@@ -13,18 +16,46 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.card').forEach(card => {
         const likeDislikeButton = card.querySelector('.card-footer .fav-btn');
         if (likeDislikeButton) {
-            likeDislikeButton.addEventListener('click', function (event) {
+            likeDislikeButton.addEventListener('submit', function (event) {
+                event.preventDefault(); // prevent the default form submission behavior
                 console.log('likeDislikeButton clicked', likeDislikeButton)
                 console.log('likeDislikeButton.className', likeDislikeButton.className)
                 const buttonClassName = likeDislikeButton.className
                 if(buttonClassName.includes("favorites-checked-button")){ // if the button is checked -dislike post
                     likeDislikeButton.classList.remove("favorites-checked-button");
                     likeDislikeButton.classList.add("favorites-unchecked-button");
-
+                    const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                    const formActionValue = card.querySelector(".unlike-form").getAttribute('action');
+                    fetch(formActionValue, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                        }),
+                        headers: { "X-CSRFToken": csrfmiddlewaretoken }
+                    })
+                .then(response => {
+                    console.log(response);
+                })
+                // fetch also for dislike
                 } else { // if the button is unchecked - like post
                     likeDislikeButton.classList.remove("favorites-unchecked-button");
                     likeDislikeButton.classList.add("favorites-checked-button");
-                }
+                    const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                    const formActionValue = card.querySelector(".like-form").getAttribute('action');
+                    console.log('formActionValue', formActionValue);
+                    // To store the logs in localStorage
+                    let logs = JSON.parse(localStorage.getItem("logs")) || [];
+                    logs.push("formActionValue", formActionValue);
+                    localStorage.setItem("logs", JSON.stringify(logs));
+                    fetch(formActionValue, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                        }),
+                        headers: { "X-CSRFToken": csrfmiddlewaretoken }
+                    })
+                    .then(response => {
+                        console.log(response);
+                    })
+                    }
             })
         }
     });
@@ -60,6 +91,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 console.log('formActionValue', formActionValue);
                 // make a Fetch API request to update the post
+                let logs = JSON.parse(localStorage.getItem("logs")) || [];
+                logs.push('formActionValue', formActionValue);
+                localStorage.setItem("logs", JSON.stringify(logs));
                 fetch(formActionValue, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -93,21 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-// add event listener to footer if liked/unliked button clicked
-// document.addEventListener('DOMContentLoaded', function() {
-//     document.querySelectorAll('card').forEach(button => {
-//         const likeDislikeButton = button.querySelector('.card-footer .favorite-icons .fav-btn');
-//         likeDislikeButton.addEventListener('submit', function (event) {
-//             if (likeDislikeButton.className === "favorites-unchecked-button")
-//                 likeDislikeButton.className = "favorites-checked-button"
-//             else
-//                 likeDislikeButton.className = "favorites-unchecked-button"
-//         })
-//     })
-// })
-
-// add function that add event listener to edit-button-2 in fuser is logged in  add log to console that edit-button-2 clicked
 
 function buttonEditPostClicked(button) {
     button.addEventListener('click', function (event) {

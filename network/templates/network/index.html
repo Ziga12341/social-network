@@ -57,15 +57,15 @@
                                 <p> users who liked goes here {{ post.liked_posts.all }}</p>
                                 <br>
                                 {% if request.user in post.liked_posts.all %}
-                                    <form action="/post/{{ post.id }}/unlike" method="post>">
+                                    <form action="{% url 'unlike' post.id %}" method="post" class="unlike-form">
                                         {% csrf_token %}
-                                        <button class="favorites-checked-button fav-btn" name="first-if"></button>
+                                        <button class="favorites-checked-button fav-btn" type="submit"></button>
                                     </form>
 {#                                      if user already liked the post, do not show the unchecked button#}
                                 {% else %}
-                                    <form action="/post/{{ post.id }}/like" method="post>">
+                                    <form action="{% url "like" post.id %}" method="post" class="like-form">
                                         {% csrf_token %}
-                                        <button class="favorites-unchecked-button fav-btn" name="first-else"></button>
+                                        <button class="favorites-unchecked-button fav-btn" type="submit"></button>
                                     </form>
                                 {% endif %}
                             {% endif %}
