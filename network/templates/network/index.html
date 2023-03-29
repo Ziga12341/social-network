@@ -45,23 +45,19 @@
                         </div>
                     {% endif %}
                     <div class="card-footer">
+                        <p> {{ post.timestamp }}</p>
                         <h6><a href="{% url 'profile' post.user %}"> {{ post.user }}</a></h6>
                         {% if user.is_authenticated and user == post.user%}
                             <button class="edit-button btn btn-primary">Edit post</button>
                         {% endif %}
-                        <p> {{ post.timestamp }}</p>
                         {#If user already liked the post, show the checked button, otherwise show unchecked button#}
                         <div class="favorites-icons">
                             {% if user.is_authenticated %}
-                                <p>who liked post :
-                                <p> users who liked goes here {{ post.liked_posts.all }}</p>
-                                <br>
                                 {% if request.user in post.liked_posts.all %}
                                     <form action="{% url 'unlike' post.id %}" method="post" class="unlike-form">
                                         {% csrf_token %}
                                         <button class="favorites-checked-button fav-btn" type="submit"></button>
                                     </form>
-{#                                      if user already liked the post, do not show the unchecked button#}
                                 {% else %}
                                     <form action="{% url "like" post.id %}" method="post" class="like-form">
                                         {% csrf_token %}
@@ -69,7 +65,6 @@
                                     </form>
                                 {% endif %}
                             {% endif %}
-                            </p>
                             <div class="favorites-count">{{ post.likes }}</div>
                         </div>
                     </div>

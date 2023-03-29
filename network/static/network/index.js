@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const favoritesCount = card.querySelector(".favorites-count");
         const postId = card.dataset.postId; // card (post) id
 
-
         if (favoriteIcons) {
             favoriteIcons.addEventListener('submit', function (event) {
                 event.preventDefault(); // prevent the default form submission behavior
@@ -54,16 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     favoritesCountValue += 1;
                     favoritesCount.innerHTML = favoritesCountValue.toString();
 
-
                     const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
                     const likeAction = `/post/${postId}/like/`
-                    console.log('postId', postId);
-                    console.log('likeAction', likeAction);
-                    // To store the logs in localStorage
-                    let logs = JSON.parse(localStorage.getItem("logs")) || [];
-                    logs.push("postId", postId);
-                    logs.push("likeAction", likeAction);
-                    localStorage.setItem("logs", JSON.stringify(logs));
                     fetch(likeAction, {
                         method: 'POST',
                         body: JSON.stringify({

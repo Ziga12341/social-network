@@ -56,6 +56,7 @@ body{
 
 /*center number in .favorites icon*/
 .favorites-icons{
+    display: inline-block;
     vertical-align: middle;
     horiz-align: center;
     justify-content: center;
@@ -82,4 +83,16 @@ body{
 
 .btn {
     margin: 8px;
+}
+
+.like-form{
+    display: inline-block;
+}
+
+.unlike-form{
+    display: inline-block;
+}
+
+.edit-button{
+    display: inline-block;
 }
