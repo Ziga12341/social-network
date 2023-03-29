@@ -142,10 +142,7 @@ def profile(request, username):
         following_status = False
         # if user that is logged on following user that is being viewed display status
         logged_on_user = User.objects.get(id=request.user.id)
-        print("logged on user is: ", logged_on_user)
         if logged_on_user in followers and logged_on_user != user:
-            print("following status is true, user who's logged in is following user that is being viewed")
-            print("followers: ", followers)
             following_status = True
 
         if request.method == "POST":

@@ -28,12 +28,19 @@
         <p>Followers:<h3>{{ number_of_followers }}</h3></p>
         <p>Following: {{ number_of_following }}</p>
     </div>
-    <div class="posts">
+    <div class="card-container">
         {% for post in posts %}
-            <div class="post">
-                <p>{{ post.body }}</p>
-                <p>{{ post.timestamp }}</p>
-                <p>{{ post.user }}</p>
+            <div class="card">
+                <div class="card-body">
+                    <div class="orange_bg">
+                        <p> {{ post.body }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'profile' post.user %}"> {{ post.user }}</a>
+                        <p> {{ post.timestamp }}</p>
+                        <p> {{ post.likes }} like </p>
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>
