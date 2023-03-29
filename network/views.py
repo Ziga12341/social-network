@@ -1,6 +1,3 @@
-"""
-Views for the network app.
-"""
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -33,6 +30,11 @@ class EditPostForm(forms.Form):
 
 
 def index(request):
+    """
+    Display all posts on page and use pagination.
+    :param request:
+    :return: render index.html
+    """
     next_page_url = None
     previous_page_url = None
     all_posts = Post.objects.all().order_by("-timestamp")
@@ -56,6 +58,11 @@ def index(request):
 
 @login_required(login_url='/login')
 def new_post(request):
+    """
+    Create a new post. Only for logged-in user. With form validation. User need to provide a body.
+    :param request: only for logged-in user
+    :return: reverse to index
+    """
     user_by_id = User.objects.get(id=request.user.id)
     if request.method == "POST":
         form = NewPostForm(request.POST)
@@ -69,6 +76,13 @@ def new_post(request):
 
 @login_required(login_url='/login')
 def update_post(request, post_id):
+    """
+    Update a post. Only for logged-in user. With form validation. User need to provide a body.
+    Only the user who created the post can edit it.
+    :param request:
+    :param post_id: int
+    :return: reverse to index
+    """
     print(request.method)
 
     # Editing posts must be via POST
@@ -96,6 +110,13 @@ def update_post(request, post_id):
 # check who already liked post and if logged-in user is in list
 @login_required(login_url='/login')
 def like(request, post_id):
+    """
+    Like a post. Only for logged-in user. Add user to liked_posts (users who liked particular post)
+    and increase likes by 1.
+    :param request:
+    :param post_id: int
+    :return: reverse to index
+    """
     print(request.POST)
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
@@ -113,7 +134,14 @@ def like(request, post_id):
 
 
 # unlike a post
+@login_required(login_url='/login')
 def unlike(request, post_id):
+    """
+    Unlike a post. Only for logged-in user. Remove user from liked_posts (users who liked particular post)
+    :param request:
+    :param post_id:
+    :return:
+    """
     print(request.POST)
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
@@ -131,6 +159,13 @@ def unlike(request, post_id):
 
 
 def profile(request, username):
+    """
+    Display profile of user. If user is logged in, display follow/unfollow button.
+    Display number of followers and following. Display all posts of current user.
+    :param request:
+    :param username: string
+    :return: render profile.html
+    """
     user = User.objects.get(username=username)
     followers = user.followers.all()
     following = user.following.all()
@@ -180,6 +215,12 @@ def profile(request, username):
 
 @login_required(login_url='/login')
 def following(request):
+    """
+    Display all posts of users that the logged-in user is following.
+    Use pagination to display 10 posts per page.
+    :param request:
+    :return:
+    """
     next_page_url = None
     previous_page_url = None
 
@@ -199,8 +240,6 @@ def following(request):
     if following_posts.has_previous():
         previous_page_url = f'?page={following_posts.previous_page_number()}'
 
-    print("paginator.num_pages: ", paginator.num_pages)
-
     return render(request, "network/following.html",
                   {"following_posts": following_posts,
                    "paginator": paginator,
@@ -209,6 +248,11 @@ def following(request):
 
 
 def login_view(request):
+    """
+    Log user in.
+    :param request:
+    :return:
+    """
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -229,11 +273,21 @@ def login_view(request):
 
 
 def logout_view(request):
+    """
+    Log user out.
+    :param request:
+    :return:
+    """
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
 
 def register(request):
+    """
+    Register user.
+    :param request:
+    :return:
+    """
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]

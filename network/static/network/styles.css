@@ -79,6 +79,7 @@ body{
     padding: 11px;
     text-align: center;
     horiz-align: center;
+    margin-left: 8px;
 }
 
 .btn {
@@ -99,7 +100,6 @@ body{
 
 .close-textarea{
     display: inline-block;
-    padding-top: inherit;
     margin: 50px
 }
 
