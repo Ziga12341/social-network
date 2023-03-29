@@ -29,14 +29,16 @@
                     {% if user.is_authenticated and user == post.user%}
                         <!-- Edit post form -->
                         <div class="edit-post-div" style="display: none">
-                            <form action="{% url 'update_post' post.id %}" method="post" class="edit-form">
-                                {% csrf_token %}
-                                {{ edit_post_form }}
-                                <br>
-                                <button id="edit-body-submit" class="btn btn-primary edit-body-submit" type="submit">Save</button>
-                            </form>
-                            <button class="close-textarea btn btn-primary">Close editing post</button>
-
+                            <div class="edit-form-container">
+                                <form action="{% url 'update_post' post.id %}" method="post" class="edit-form">
+                                    {% csrf_token %}
+                                    {{ edit_post_form }}
+                                    <br>
+                                    <button id="edit-body-submit" class="btn btn-primary edit-body-submit" type="submit">Save</button>
+                                </form>
+                                <button class="close-textarea btn btn-primary">Close editing post</button>
+                            </div>
+                        </div>
                         <div class="edit-post-div" style="display: none">
                             <textarea>{{ post.body }}</textarea>
                             <button class="close-textarea">Close editing post</button>

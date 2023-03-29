@@ -28,7 +28,7 @@ class NewPostForm(forms.Form):
 
 class EditPostForm(forms.Form):
     body = forms.CharField(
-        widget=forms.Textarea(attrs={"class": "edit-body", "opacity": "0"}),
+        widget=forms.Textarea(attrs={"class": "edit-body", "opacity": "0", "rows": "1", "cols": "27"}),
         label="")
 
 

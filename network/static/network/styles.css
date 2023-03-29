@@ -96,3 +96,21 @@ body{
 .edit-button{
     display: inline-block;
 }
+
+.close-textarea{
+    display: inline-block;
+    padding-top: inherit;
+    margin: 50px;
+}
+
+.edit-body-submit{
+    display: inline-block;
+}
+
+.edit-form{
+    display: inline-block;
+}
+
+.edit-form-container{
+    display: inline-flex;
+}
