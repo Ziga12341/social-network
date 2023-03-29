@@ -128,6 +128,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(result => {
                     try {
                         console.log(result);
+                        card.querySelector('.card-body .post-body > p').textContent = newPostBody;
+                        card.querySelector('.edit-post-div').style.display = 'none';
+                        card.querySelector('.post-body').style.display = 'block';
                         } catch (error) {
                             console.error('Error parsing JSON data:', error.message);
                         }
