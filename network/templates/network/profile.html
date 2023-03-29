@@ -16,10 +16,10 @@
                 {% csrf_token %}
                 {% if following_status %}
                     {{ unfollow_form.unfollow.as_hidden }}
-                    <input id="unfollow-button" type="submit" value="Unfollow">
+                    <button id="unfollow-button" class="unfollow-button btn btn-primary" type="submit">Unfollow</button>
                 {% else %}
                     {{ follow_form.follow.as_hidden }}
-                    <input id="follow-button" type="submit" value="Follow">
+                    <button id="follow-button" class="follow-button btn btn-primary" type="submit">Follow</button>
                 {% endif %}
             </form>
         </div>
