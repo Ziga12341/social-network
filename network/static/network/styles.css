@@ -100,7 +100,7 @@ body{
 .close-textarea{
     display: inline-block;
     padding-top: inherit;
-    margin: 50px;
+    margin: 50px
 }
 
 .edit-body-submit{
@@ -113,4 +113,25 @@ body{
 
 .edit-form-container{
     display: inline-flex;
+}
+
+.followers{
+    display: inline-block;
+    font-weight: bold;
+    font-size: 24px;
+    background-color: darkslategray;
+    color: orange;
+    padding: 8px;
+    margin: 32px;
+}
+
+.follow-section{
+    display: inline-block;
+    padding: 16px;
+    margin: 16px;
+}
+
+.card-container{
+    display: inline-block;
+    margin: 32px;
 }

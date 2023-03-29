@@ -2,15 +2,13 @@
 {% load static %}
 
 {% block body %}
-    <h1>Network</h1>
-    <h1>{{ user }}</h1>
+    <h1>{{ user|title }}'s Profile</h1>
     <p>Display number of followers and number of people following me:</p>
+    <div class="followers">
+        <p>Number of users following {{ users_profile|title }} (Followers): {{ number_of_followers }}</p>
+        <p>Number of users {{ users_profile|title }} follow (Following): {{ number_of_following }}</p>
+    </div>
     {% if user.is_authenticated and user != users_profile %}
-        <h1> User profile you that you are currently looking: {{ users_profile }}</h1>
-        <h1> User is that is logged in: {{ user }}</h1>
-        <div class="follow">
-            follow/unfollow {{ following_status }}
-        </div>
         <div class="follow-section">
             <form id="follow-form" action="{% url 'profile' users_profile %}" method="post">
                 {% csrf_token %}
@@ -24,10 +22,6 @@
             </form>
         </div>
     {% endif %}
-    <div class="followers">
-        <p>Followers:<h3>{{ number_of_followers }}</h3></p>
-        <p>Following: {{ number_of_following }}</p>
-    </div>
     <div class="card-container">
         {% for post in posts %}
             <div class="card">
