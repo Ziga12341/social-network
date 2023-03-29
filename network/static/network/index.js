@@ -1,17 +1,23 @@
-// if edit button clicked then:
-// add console log
-// hide #post-body
-console.log('JavaScript code is actually being executed')
-// To store the logs in localStorage
-
-
 document.addEventListener('DOMContentLoaded', function() {
+    /*
+    this part of code listens to the click event on the edit button
+    if button to edit the post is clicked than show the textarea and hide the post body
+    and if button to close the textarea is clicked than hide the textarea and show the post body
+     */
     document.querySelectorAll('.edit-button').forEach(button => {
         buttonEditPostClicked(button)
     })
     document.querySelectorAll('.close-textarea').forEach(button => {
         buttonClosePostClicked(button)
     });
+
+    /*
+    this part of code listens to the click event on the like button
+    and sends a request to the server to like or dislike the post
+    and updates the number of likes
+    and use the fetch API to send a request to the server
+    and use cfscmiddlewaretoken to prevent cross-site request forgery
+     */
 
     document.querySelectorAll('.card').forEach(card => {
         const favoriteIcons = card.querySelector('.favorites-icons');
@@ -34,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
                     const postAction = `/post/${postId}/unlike/`
-                    console.log('postId', postId);
                     fetch(postAction, {
                         method: 'POST',
                         body: JSON.stringify({
@@ -64,28 +69,35 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(response => {
                         console.log(response);
                     })
-                    }
+                }
             })
         }
     });
-
+    /*
+    this part of code listens to the click event on the edit button
+    if button to edit the post is clicked than show the textarea and hide the post body
+    and fill the textarea with the post body
+     */
     document.querySelectorAll('.card').forEach(card => {
         const editButton = card.querySelector('.edit-button');
         if (editButton) {
             editButton.addEventListener('click', function (event) {
                 const card = event.target.closest('.card')
-                console.log("Card", card, card.dataset, card.dataset.postId)
                 card.querySelector('.post-body').style.display = 'none';
                 card.querySelector(".edit-post-div").style.display = 'block';
-
                 let postBody = card.querySelector('.card-body .post-body > p').textContent;
-                console.log('postBody', postBody);
-
                 card.querySelector(".edit-form .edit-body").value = postBody;
-                console.log("edit body value", card.querySelector(".edit-form .edit-body").value)
             })
         }
     })
+
+    /*
+    this part of code listens to the click event on the edit post div
+    if button to save edited post is clicked than send a request to the server to update the post
+    and update the post body
+    use the fetch API to send a request to the server
+    and use cfscmiddlewaretoken to prevent cross-site request forgery
+     */
     document.querySelectorAll('.card').forEach(card => {
         const editPost = card.querySelector(".edit-post-div")
         if (editPost) {
@@ -115,23 +127,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .then(result => {
                     try {
-                        console.log('newPostBody', newPostBody);
                         console.log(result);
-                        console.log('----------------- it should said message from edited form -----------------',
-                        card.querySelector(".edit-form .edit-body").value);
-                        console.log('this is end of fetch');
-                        card.querySelector('.card-body .post-body > p').textContent = newPostBody
-
-                        card.querySelector('.edit-post-div').style.display = 'none';
-                        card.querySelector('.post-body').style.display = 'block';
                         } catch (error) {
                             console.error('Error parsing JSON data:', error.message);
                         }
                         })
-                    .catch(error => {
-                      console.error('Error fetching data:', error.message);
-                    });
-                // add function that add event listener to edit-body-submit if user click this button change newPostBody to newPostBody
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                });
             });
         }
     });
