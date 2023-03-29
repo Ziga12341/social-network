@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const favoriteIcons = card.querySelector('.favorites-icons');
         const likeDislikeButton = card.querySelector('.card-footer .fav-btn');
         const favoritesCount = card.querySelector(".favorites-count");
+        const postId = card.dataset.postId; // card (post) id
+
 
         if (favoriteIcons) {
             favoriteIcons.addEventListener('submit', function (event) {
@@ -32,8 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     favoritesCount.innerHTML = favoritesCountValue.toString();
 
                     const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-                    const formActionValue = card.querySelector(".unlike-form").getAttribute('action');
-                    fetch(formActionValue, {
+                    const postAction = `/post/${postId}/unlike/`
+                    console.log('postId', postId);
+                    fetch(postAction, {
                         method: 'POST',
                         body: JSON.stringify({
                         }),
@@ -53,13 +56,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
                     const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-                    const formActionValue = card.querySelector(".like-form").getAttribute('action');
-                    console.log('formActionValue', formActionValue);
+                    const likeAction = `/post/${postId}/like/`
+                    console.log('postId', postId);
+                    console.log('likeAction', likeAction);
                     // To store the logs in localStorage
                     let logs = JSON.parse(localStorage.getItem("logs")) || [];
-                    logs.push("formActionValue", formActionValue);
+                    logs.push("postId", postId);
+                    logs.push("likeAction", likeAction);
                     localStorage.setItem("logs", JSON.stringify(logs));
-                    fetch(formActionValue, {
+                    fetch(likeAction, {
                         method: 'POST',
                         body: JSON.stringify({
                         }),
