@@ -14,15 +14,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelectorAll('.card').forEach(card => {
-        const likeDislikeButton = card.querySelector('.card-footer .fav-btn');
         const favoriteIcons = card.querySelector('.favorites-icons');
+        const likeDislikeButton = card.querySelector('.card-footer .fav-btn');
+        const favoritesCount = card.querySelector(".favorites-count");
+
         if (favoriteIcons) {
             favoriteIcons.addEventListener('submit', function (event) {
                 event.preventDefault(); // prevent the default form submission behavior
                 const buttonClassName = likeDislikeButton.className
+                let favoritesCountValue = parseInt(favoritesCount.innerHTML);
                 if(buttonClassName.includes("favorites-checked-button")){ // if the button is checked -dislike post
                     likeDislikeButton.classList.remove("favorites-checked-button");
                     likeDislikeButton.classList.add("favorites-unchecked-button");
+
+                    // decrease the number of likes by one (class="favorites-count") and convert it to string
+                    favoritesCountValue -= 1;
+                    favoritesCount.innerHTML = favoritesCountValue.toString();
+
                     const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
                     const formActionValue = card.querySelector(".unlike-form").getAttribute('action');
                     fetch(formActionValue, {
@@ -38,6 +46,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else { // if the button is unchecked - like post
                     likeDislikeButton.classList.remove("favorites-unchecked-button");
                     likeDislikeButton.classList.add("favorites-checked-button");
+
+                    // increase the number of likes by one (class="favorites-count"), and convert to string
+                    favoritesCountValue += 1;
+                    favoritesCount.innerHTML = favoritesCountValue.toString();
+
+
                     const csrfmiddlewaretoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
                     const formActionValue = card.querySelector(".like-form").getAttribute('action');
                     console.log('formActionValue', formActionValue);
