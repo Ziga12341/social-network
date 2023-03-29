@@ -3,7 +3,7 @@ CS50 - web - project **NETWORK**
 
 ## Week 7 Python, JavaScript, HTML, and CSS ##
 
-![**Page screenshot**](https://github.com/ziga12341/commerce/blob/main/network.png?raw=true)
+![**Page screenshot**](https://github.com/ziga12341/social-network/blob/main/network.png?raw=true)
 
 ### How page works ###
 
