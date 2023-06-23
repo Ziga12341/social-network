@@ -13,9 +13,12 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Add these lines to create the /data directory and set permissions
+RUN mkdir /data && \
+    chown -R www-data:www-data /data
+
 # Copy the project files
 COPY . .
-
 # Expose the port your app is running on
 EXPOSE 8000
 
