@@ -4,6 +4,7 @@ FROM python:3.9
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV DJANGO_DB_PATH /data/db.sqlite3
 
 # Set the working directory
 WORKDIR /app
